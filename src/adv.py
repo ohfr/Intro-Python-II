@@ -54,6 +54,10 @@ player = Player(playerName, room['outside'])
 validDirections  = ('n', 's', 'e', 'w')
 
 
+
+# maybe light source ?
+
+
 def moveRooms(direction):
     try:
         if direction == 'n':
