@@ -3,43 +3,41 @@ from room import Room
 from player import Player
 # Declare all the rooms
 
-room = {
-    'outside':  Room("Outside Cave Entrance",
+outside = Room("Outside Cave Entrance",
                      "North of you, the cave mount beckons"),
 
-    'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
+foyer = Room("Foyer", """Dim light filters in from the south. Dusty
 passages run north and east."""),
 
-    'overlook': Room("Grand Overlook", """A steep cliff appears before you, falling
+overlook = Room("Grand Overlook", """A steep cliff appears before you, falling
 into the darkness. Ahead to the north, a light flickers in
 the distance, but there is no way across the chasm."""),
 
-    'narrow':   Room("Narrow Passage", """The narrow passage bends here from west
+narrow = Room("Narrow Passage", """The narrow passage bends here from west
 to north. The smell of gold permeates the air."""),
 
-    'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
+treasure =  Room("Treasure Chamber", """You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
-earlier adventurers. The only exit is to the south."""),
-}
+earlier adventurers. The only exit is to the south.""")
 
 
 # Link rooms together
 
-room['outside'].n_to = room['foyer']
-room['foyer'].s_to = room['outside']
-room['foyer'].n_to = room['overlook']
-room['foyer'].e_to = room['narrow']
-room['overlook'].s_to = room['foyer']
-room['narrow'].w_to = room['foyer']
-room['narrow'].n_to = room['treasure']
-room['treasure'].s_to = room['narrow']
+outside.n_to = foyer
+foyer.s_to = outside
+foyer.n_to = overlook
+foyer.e_to = narrow
+overlook.s_to = foyer
+narrow .w_to = foyer
+narrow.n_to = treasure
+treasure.s_to = narrow
 
 #
 # Main
 #
 playerName = input("Please choose a name for your character\n")
 # Make a new player object that is currently in the 'outside' room.
-player = Player(playerName, room['outside'])
+player = Player(playerName, outside)
 # Write a loop that:
 #
 # * Prints the current room name
@@ -59,21 +57,31 @@ validDirections  = ('n', 's', 'e', 'w')
 
 
 def moveRooms(direction):
-    try:
-        if direction == 'n':
-            player.current_room = player.current_room.n_to
-        elif direction == 's':
-            player.current_room = player.current_room.s_to
-        elif direction == 'e':
-            player.current_room = player.current_room.e_to
-        elif direction == 'w':
-            player.current_room = player.current_room.w_to
+    # try:
+    #     if direction == 'n':
+    #         player.current_room = player.current_room.n_to
+    #     elif direction == 's':
+    #         player.current_room = player.current_room.s_to
+    #     elif direction == 'e':
+    #         player.current_room = player.current_room.e_to
+    #     elif direction == 'w':
+    #         player.current_room = player.current_room.w_to
+    #     else:
+    #         direct = input("Please enter a valid direction, directions are n, s, e, w")
+    #         return moveRooms(direct)
+    # except AttributeError:
+    #     direct = input("You have chosen an empty path, please pick another\n")
+    #     return moveRooms(direct)
+    if direction in validDirections:
+        if hasattr(player.current_room, f'{direction}_to'):
+            player.current_room = getattr(player.current_room, f'{direction}_to')
         else:
-            direct = input("Please enter a valid direction, directions are n, s, e, w")
+            direct = input("You have chosen an empty path, please pick another\n")
             return moveRooms(direct)
-    except AttributeError:
-        direct = input("You have chosen an empty path, please pick another\n")
+    else:
+        direct = input("Please enter a valid direction, directions are n, s, e, w")
         return moveRooms(direct)
+
 
 while True:
     player.printCurrentRoom()
