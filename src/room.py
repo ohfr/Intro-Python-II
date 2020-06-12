@@ -27,3 +27,9 @@ class Room:
         
     def removeItem(self, item):
         self.items.remove(item)
+
+    def showItems(self):
+        if self.items is not None:
+            print(f"Items in {self.name}:")
+            for item in self.items:
+                print(f"\t{item.name}, {item.description}")

@@ -1,10 +1,11 @@
 # Write a class to hold player information, e.g. what room they are in
 # currently.
 class Player:
-    def __init__(self, name, current_room, items=None):
+    def __init__(self, name, current_room, items=None, score=0):
         self.name = name
         self.current_room = current_room
         self.items = items
+        self.score = score
 
     def __str__(self):
         return self.name
@@ -35,3 +36,5 @@ class Player:
         for i in self.items:
             if i.name == item:
                 return i
+    def addScore(self):
+        self.score +=1

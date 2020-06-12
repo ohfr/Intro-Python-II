@@ -102,6 +102,7 @@ def itemAction(action, item):
                 player.current_room.removeItem(foundItem)
                 player.getItem(foundItem)
                 foundItem.on_take()
+                player.addScore()
             else:
                 print(f"There is no {item} in this room")
         else:
@@ -124,6 +125,7 @@ while True:
     if direction in validDirections:
         moveRooms(direction)
         player.printCurrentRoom()
+        player.current_room.showItems()
     elif " " in direction:
         action, item = direction.split(" ")
         itemAction(action, item) 
